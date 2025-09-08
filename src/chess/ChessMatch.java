@@ -7,12 +7,23 @@ import chess.pieces.King;
 import chess.pieces.Rook;
 
 public class ChessMatch {
-
+	private int turn;
+	private Color currentPlayer;
 	private Board board;
 
 	public ChessMatch() {
 		board = new Board(8, 8);
+		turn = 1;
+		currentPlayer = Color.WHITE;
 		initialSetup();
+	}
+	
+	public int getTurn() {
+		return turn;
+	}
+	
+	public Color getCurrentPlayer() {
+		return currentPlayer;
 	}
 
 	public ChessPiece[][] getPieces() {
@@ -38,6 +49,7 @@ public class ChessMatch {
 		validateSourcePosition(source);
 		validateTargetPosition(source, target);
 		Piece capturedPiece = makeMove(source, target);
+		nextTurn();
 		return (ChessPiece) capturedPiece;
 	}
 	
@@ -52,6 +64,9 @@ public class ChessMatch {
 		if(!board.thereIsAPiece(position )) {
 			throw new ChessExcepition("Nao existe peca nessa posicao"); 
 		}
+		if(currentPlayer != ((ChessPiece) board.piece(position)).getColor()){
+			throw new ChessExcepition("Peca invalida");
+		}
 		
 		if(!board.piece(position).isThereAnyPossibleMove()) {
 			throw new ChessExcepition("Nao existe movimentos possiveis para a peca");
@@ -62,6 +77,12 @@ public class ChessMatch {
 		if(!board.piece(source).possileMove(target)) {
 			throw new ChessExcepition("A peca escolhida nao pode se mover para posicao escolhida");
 		}
+	}
+	
+	
+	private void nextTurn() {
+		turn++;
+		currentPlayer = (currentPlayer == Color.WHITE) ? Color.BLACK: Color.WHITE;
 	}
 	
 	
