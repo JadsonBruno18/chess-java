@@ -19,32 +19,31 @@ public class Program {
 		List<ChessPiece> captured = new ArrayList<>();
 
 		while (true) {
-			try{
+			
+			try {
 				UI.clearScreen();
 				UI.printMatch(chessMatch, captured);
-		
+
 				System.out.println();
 				System.out.print("Posicao de origem: ");
 				ChessPosition source = UI.readChessPosition(sc);
-				
-				boolean[][]possibleMove = chessMatch.possibleMoves(source);
+
+				boolean[][] possibleMove = chessMatch.possibleMoves(source);
 				UI.clearScreen();
 				UI.printBoard(chessMatch.getPieces(), possibleMove);
-				
+
 				System.out.println();
 				System.out.print("Posicao de destino: ");
 				ChessPosition target = UI.readChessPosition(sc);
-				
+
 				ChessPiece capturedPiece = chessMatch.performChessMove(source, target);
-				if(capturedPiece != null) {
+				if (capturedPiece != null) {
 					captured.add(capturedPiece);
 				}
-			}
-			catch(ChessExcepition e) {
+			} catch (ChessExcepition e) {
 				System.out.println(e.getMessage());
 				sc.nextLine();
-			}
-			catch(InputMismatchException e) {
+			} catch (InputMismatchException e) {
 				System.out.println(e.getMessage());
 				sc.nextLine();
 			}
